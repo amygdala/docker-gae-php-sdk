@@ -35,7 +35,16 @@ Then (drawing from [https://github.com/essa/docker-gae-python](https://github.co
 `docker-gae-php-sdk/home` is mapped to the home directory of the Docker container.
 
     ssh gae@localhost -p 2022  # the given Dockerfile sets password as `phpphp`.
-    /usr/local/google_appengine/dev_appserver.py /usr/local/google_appengine/demos/python/guestbook/ --port 8080 --host 0.0.0.0
+    # start the mysql server after you start the container
+    /usr/bin/mysqld_safe &
+
+then:
+
+    /usr/local/google_appengine/dev_appserver.py /usr/local/google_appengine/demos/php/guestbook/ --port 8080 --host 0.0.0.0
+
+or e.g. you can start the container like this:
+
+	sudo docker run -t -i -p 8080:8080 -p 3306:3306 -v /path/to/docker-gae-php-sdk/home:/home/gae:rw gae-php bash
 
 Open port 8080 in the firewall for your GCE instance if you like.
 
